@@ -58,19 +58,19 @@ classifier = Sequential()
 n = x_train[0].size 
 m = n +50
 
-classifier.add(Dense(units = n, activation = 'relu', input_dim = n))    #adding the input layer and the first hidden layer
+classifier.add(Dense(units = m, activation = 'relu', input_dim = n))    #adding the input layer and the first hidden layer
 classifier.add(Dropout(0.2))                                                 #use dropout to randomly disable nodes
 classifier.add(Dense(units = m, kernel_initializer = 'uniform', activation = 'relu')) #adding a hidden layer
 classifier.add(Dense(units = m, kernel_initializer = 'uniform', activation = 'relu'))
 classifier.add(Dropout(0.2))
 classifier.add(Dense(units = m, kernel_initializer = 'uniform', activation = 'relu'))
-classifier.add(Dense(units = 20, kernel_initializer = 'uniform', activation = 'sigmoid')) #adding the output layer
+classifier.add(Dense(units = len(y_train[0]), kernel_initializer = 'uniform', activation = 'sigmoid')) #adding the output layer
 
 #compiling the ANN
 classifier.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
 #fitting the ANN to the Training set
-history = classifier.fit(x_train, y_train, batch_size = 250, epochs = 20)
+history = classifier.fit(x_train, y_train, batch_size = 250, epochs = 100)#2000
 
 plot_nn(history)
 
@@ -100,15 +100,16 @@ fyt = [item for sublist in d[['s1','s2']].values for item in sublist]
 points = result(fyp,fyt)
 print(points)
 
-
-d.to_csv('result/resultall_' + str(dt.datetime.now())[:19].replace(':','-') + '_P' + str(points) + '.csv')
-
-
 # Making the Confusion Matrix (goal-wise predictions)
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(fyt, fyp)
 
 np.trace(cm) / cm.size
+
+d.to_csv('result/resultall_' + str(dt.datetime.now())[:19].replace(':','-') + '_P' + str(points) + '.csv')
+
+
+
 
 #%%
 ################### Save and load your trained neural network ################### 
