@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 import re  
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler
 #from sklearn.model_selection import train_test_split
 
@@ -221,10 +222,7 @@ def prepro_nn(dataset):
     
     #Splitting the dataset into the Training set and Test set
     #x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.1, random_state = 0)
-    
-    kind = ['wm2018']
-    kind.append('wm')
-        
+         
     #for remaining matches
     dtrain = dataset[dataset['kind'] != 'wm2018']
     dtrain = dtrain[~((dtrain['kind'] == 'wm') & (dtrain['year'] == 2018)) ]
@@ -237,14 +235,12 @@ def prepro_nn(dataset):
     sc = StandardScaler()
     x_train = sc.fit_transform(x_train)
     x_test = sc.transform(x_test)
-
     return [x_train,y_train,x_test,y_test]
-
-
+    
 
 def plot_nn(nn):
     #plot the history for accuracy                    
-    plt.plot(history.history['acc'])
+    plt.plot(nn.history['acc'])
     plt.title('model accuracy')
     plt.ylabel('accuracy')
     plt.xlabel('epoch')
@@ -254,7 +250,7 @@ def plot_nn(nn):
     plt.clf()
     
     #summarize history for loss
-    plt.plot(history.history['loss'])
+    plt.plot(nn.history['loss'])
     plt.title('model loss')
     plt.ylabel('loss')
     plt.xlabel('epoch')
@@ -263,4 +259,30 @@ def plot_nn(nn):
     plt.savefig('result/loss', dpi = 400)
     plt.clf()
     
+    
+
+'''
+How good our model is will be measured in the following function. 
+You get points as listed:
+    
+predicted score is actual score - 3 points
+score tendency is correct       - 2 points
+predicted the winner correctly  - 1 point
+
+Make your own predictions and compare yourself with the model
+'''
+def result(fyp,fyt):
+    points = 0
+    for match in range(0,len(fyt),2):
+        if fyp[match:match+2] == fyt[match:match+2]: 
+            points += 3
+        elif np.diff(fyp[match:match+2]) == np.diff(fyt[match:match+2]): 
+            points += 2
+        elif (fyp[match] > fyp[match+1]) == (fyt[match] > fyt[match+1]): 
+            points += 1
+        
+    return points
+
+
+#def make_pred(df):
     

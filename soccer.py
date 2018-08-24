@@ -22,7 +22,6 @@ Make sure all packages are up to date. You also might need to update dask with '
 
 from keras.models import model_from_json
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 import datetime as dt
 from functions import *
@@ -59,7 +58,7 @@ classifier = Sequential()
 n = x_train[0].size 
 m = n +50
 
-classifier.add(Dense(units = n, kernel_initializer = 'uniform', input_dim = n))    #adding the input layer and the first hidden layer
+classifier.add(Dense(units = n, activation = 'relu', input_dim = n))    #adding the input layer and the first hidden layer
 classifier.add(Dropout(0.2))                                                 #use dropout to randomly disable nodes
 classifier.add(Dense(units = m, kernel_initializer = 'uniform', activation = 'relu')) #adding a hidden layer
 classifier.add(Dense(units = m, kernel_initializer = 'uniform', activation = 'relu'))
@@ -89,37 +88,15 @@ fyp = [item for sublist in fyp for item in sublist] #transform scores into a vec
 
 #save the scores in a new data frame
 d = dataset[dataset['kind'] == 'wm2018'] 
-d.loc[:,'s1p'] = 0#fyp[::2]  #predicted score for player 1
-d['s2p'] = fyp[1::2] #predicted score for player 1
+d.loc[:,'s1p'] = fyp[::2]  #predicted score for player 1
+d['s2p'] = fyp[1::2] #predicted score for player 2
 s = [(data[['s1','s2']][((data['n1']==row[1][0]) & (data['n2']==row[1][1]))].values[0]).astype(int) if ((data['n1']==row[1][0]) & (data['n2']==row[1][1])).any() else [-1,-1] for row in d.iterrows()]
 d[['s1','s2']] = s
-
 
 #extract actual scores from data frame
 fyt = [item for sublist in d[['s1','s2']].values for item in sublist]
 
-'''
-How good our model is will be measured in the following function. 
-You get points as listed:
-    
-predicted score is actual score - 3 points
-score tendency is correct       - 2 points
-predicted the winner correctly  - 1 point
-
-Make your own predictions and compare yourself with the model
-'''
-def result(fyp,fyt):
-    points = 0
-    for match in range(0,len(fyt),2):
-        if fyp[match:match+2] == fyt[match:match+2]: 
-            points += 3
-        elif np.diff(fyp[match:match+2]) == np.diff(fyt[match:match+2]): 
-            points += 2
-        elif (fyp[match] > fyp[match+1]) == (fyt[match] > fyt[match+1]): 
-            points += 1
-        
-    return points
-
+#evaluate model and give points for predictions
 points = result(fyp,fyt)
 print(points)
 
