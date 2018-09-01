@@ -25,11 +25,7 @@ import numpy as np
 import pandas as pd
 import datetime as dt
 from functions import *
-
-
 from sklearn.metrics import confusion_matrix
-
-#import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout
 
@@ -101,7 +97,6 @@ points = result(fyp,fyt)
 print(points)
 
 # Making the Confusion Matrix (goal-wise predictions)
-from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(fyt, fyp)
 
 np.trace(cm) / cm.size
