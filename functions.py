@@ -16,18 +16,16 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler
 
 def crawl_cups(df):
     print() #prints empty line
-    #domain of matches
-    dom = r'http://www.weltfussball.de/alle_spiele/'
-    #domain array
-    cup = []
+    
+    domain = r'http://www.weltfussball.de/alle_spiele/' #domain of matches
+    cup = [] #list to store cups
     
     #sub-URLs European / World Cup
-    cup.append(dom + r'em-2016-in-frankreich/')
-    cup.append(dom + r'em-2012-in-polen-ukraine/')
-    cup.append(dom + r'em-2008-in-oesterreich-schweiz/')
-    cup.append(dom + r'wm-2014-in-brasilien/')
-    cup.append(dom + r'wm-2010-in-suedafrika/')
-    
+    cup.append(domain + r'em-2016-in-frankreich/')
+    cup.append(domain + r'em-2012-in-polen-ukraine/')
+    cup.append(domain + r'em-2008-in-oesterreich-schweiz/')
+    cup.append(domain + r'wm-2014-in-brasilien/')
+    cup.append(domain + r'wm-2010-in-suedafrika/')
     
     #go through all European / World Cups
     for i in range(0,len(cup)):
