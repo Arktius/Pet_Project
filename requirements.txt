@@ -4,3 +4,4 @@ numpy==1.14.3
 Keras==2.1.5
 beautifulsoup4==4.6.3
 scikit_learn==0.19.2
+lxml==4.2.4
