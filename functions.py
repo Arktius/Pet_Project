@@ -13,7 +13,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler
 #from sklearn.model_selection import train_test_split
+import datetime
+#@log_arguments
+#@time_execution
 
+def time_execution(f):
+    def wrapped(*args, **kws):
+        now = datetime.datetime.now()
+        print('[' + str(now) + '] Call Function: ' + f.__name__ + '()')
+        return f(*args, **kws)
+    return wrapped
+
+@time_execution
 def crawl_cups(df):
     print() #prints empty line
     
