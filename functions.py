@@ -14,8 +14,7 @@ import matplotlib.pyplot as plt
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler
 #from sklearn.model_selection import train_test_split
 import datetime
-#@log_arguments
-#@time_execution
+
 
 def time_execution(f):
     def wrapped(*args, **kws):
@@ -191,6 +190,11 @@ def umlaute(df):
     df[['n1','n2']] = df[['n1','n2']].replace(to_replace = 'Äquatorialguinea', value ='Aequatorialguinea')
     df[['n1','n2']] = df[['n1','n2']].replace(to_replace = 'México U23', value ='Mexico U23')
 
+    #code with lambda function
+    #replace = ['Rumänien',...]
+    #value = ['Rumaenien',...]
+    #f = lambda replace,val: df[['n1','n2']].replace(to_replace = replace, value = val)
+    #df[['n1','n2']] = f(replace,value)
 
 def del_unimp(df,n):
     #drop unimportant nations with less than 10 matches
