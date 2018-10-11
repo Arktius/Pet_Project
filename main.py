@@ -51,6 +51,10 @@ df = df[~df[['n1','n2','s1','s2','year']].duplicated()]
 #delete nations with less than n matches
 del_unimp(df,10)
 
+#drop matches where score is higher than >9
+df = df[df['s1'] < 10]
+df = df[df['s2'] < 10]
+
 #save as csv-file
 df.to_csv(path_or_buf = 'soccer_results_all.csv',sep = ';', index = False)
 df[df['kind'] == "wm2018"].to_csv(path_or_buf = 'soccer_results_wc18.csv',sep = ';', index = False)
