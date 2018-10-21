@@ -25,6 +25,9 @@ def time_execution(f):
 
 @time_execution
 def crawl_cups(df):
+    
+    df = pd.DataFrame(columns=df)
+    
     print() #prints empty line
     
     domain = r'http://www.weltfussball.de/alle_spiele/' #domain of matches
@@ -62,6 +65,8 @@ def crawl_cups(df):
             kind = kind.replace('wm','WC')
             
         print("Data of {}-{} were downloaded.".format(kind,year))
+        
+    return df
 
 
 def crawl_fmatches(df):

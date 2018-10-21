@@ -31,7 +31,11 @@ df['kind'] = ''
 start = time.time()
 
 #crawl past matches and store them in dataframe
-crawl_cups(df)      #European / World cups
+df_fun = crawl_cups(df.columns)      #European / World cups
+df = pd.concat([df,df_fun])
+del df_fun
+
+
 crawl_fmatches(df)  #friendly matches
 crawl_wc18(df)      #World cup 2018
 load_others(df)     #load qualifiying matches 
